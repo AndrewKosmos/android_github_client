@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            tools:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Profile"
+            android:textSize="16sp"
+            android:layout_toEndOf="@id/profile_image"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/repository_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/profile_image"
+            tools:text="Repository"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignBottom="@id/profile_image"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="5dp"/>
+
+        <ImageView
+            android:id="@+id/img_btn_like"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_heart_disabled"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_layout"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/repository_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Description"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/repository_desc"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/img_star"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_star"/>
+
+            <TextView
+                android:id="@+id/stars_count_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="60k"
+                android:textSize="14sp"
+                android:layout_toEndOf="@id/img_star"
+                android:layout_marginLeft="8dp"/>
+
+            <ImageView
+                android:id="@+id/img_fork"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_code"
+                android:layout_toEndOf="@id/stars_count_tv"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:id="@+id/forks_count_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/img_fork"
+                tools:text="10k"
+                android:textSize="14sp"
+                android:layout_marginLeft="8dp"/>
+
+            <ImageView
+                android:id="@+id/img_lang"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_lang"
+                android:layout_toEndOf="@id/forks_count_tv"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:id="@+id/lang_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/img_lang"
+                tools:text="Language"
+                android:textSize="14sp"
+                android:layout_marginLeft="8dp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
