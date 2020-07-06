@@ -20,4 +20,5 @@ interface ApplicationComponent {
     fun getRetrofitInstance() : Retrofit
     fun getGitResponseRepository() : GitResponseRepository
     fun getMainComponent() : MainComponent.Factory
+    fun getExploreComponent() : ExploreComponent.Factory
 }

@@ -3,6 +3,6 @@ package com.kosmos.kotlincourse.data.network
 abstract class Constants {
     companion object {
         val GITHUB_BASE_URL = "https://api.github.com"
-        val GIT_PRIVATE_TOKEN = "4e6048fe4e043c71e4f9522261435f7ba7e0a3fd"
+        val GIT_PRIVATE_TOKEN = "d9a70bbfe225fb84ce6ec2f04cd063d150e46a59"
     }
 }

@@ -13,11 +13,10 @@ import com.bumptech.glide.Glide
 import com.kosmos.kotlincourse.R
 import com.kosmos.kotlincourse.domain.models.GitRepository
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
+import com.kosmos.kotlincourse.presentation.ui.MainActivity
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.repository_item.view.*
-import org.w3c.dom.Text
 
-class RepositoriesAdapter constructor(
+class RepositoriesAdapter(
     private val context: Context,
     private val repositories: List<GitRepository>,
     private val listener: AdapterListener) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
