@@ -18,8 +18,18 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class RepositoriesAdapter(
     private val context: Context,
-    private val repositories: List<GitRepository>,
+    private var repositories: MutableList<GitRepository>,
     private val listener: AdapterListener) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
+
+    fun clear() {
+        repositories.clear()
+        notifyDataSetChanged()
+    }
+
+    fun addAll(values: List<GitRepository>) {
+        repositories.addAll(values)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.repository_item, parent, false)

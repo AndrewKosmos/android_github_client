@@ -2,7 +2,12 @@ package com.kosmos.kotlincourse.presentation.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kosmos.kotlincourse.CourseApplication
 import com.kosmos.kotlincourse.R
@@ -14,61 +19,45 @@ import com.kosmos.kotlincourse.presentation.adapters.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainView{
+class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.MainFragmentListener {
 
-    //@Inject lateinit var mainPresenter: MainPresenter
-    //private lateinit var adapter: RepositoriesAdapter
+    @Inject lateinit var mainPresenter: MainPresenter
     private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var navigation: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewPagerAdapter = ViewPagerAdapter(this)
-        viewPager.adapter = viewPagerAdapter
-        TabLayoutMediator(tabLayout, viewPager,
-        TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-            tab.text = viewPagerAdapter.tabNames[position]
-            tab.icon = resources.getDrawable(viewPagerAdapter.icons[position], theme)
-        }).attach()
-        //val navigation = Navigation.findNavController(this, R.id.navFragment)
-        //NavigationUI.setupWithNavController(bottom_nav_view, navigation)
-        //all_repos_recyclerview.layoutManager = LinearLayoutManager(this)
-        //all_repos_recyclerview.addItemDecoration(
-        //    DividerItemDecoration(all_repos_recyclerview.context, DividerItemDecoration.VERTICAL)
-        //)
-
+        navigation = Navigation.findNavController(this, R.id.navFragment)
+        NavigationUI.setupActionBarWithNavController(this, navigation)
         (application as CourseApplication).getMainComponent(this).inject(this)
-        //mainPresenter.getGitRepositories()
+        /*val fragment = MainFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.navFragment, fragment)
+            .commit()*/
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.bottom_menu, menu)
-        return true
-    }*/
-
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val navController = Navigation.findNavController(this, R.id.navFragment)
-        val navigated = NavigationUI.onNavDestinationSelected(item!!, navController)
-        return navigated || super.onOptionsItemSelected(item)
-    }*/
-
-    override fun showGitRepositories(repositories: List<GitRepository>) {
-        //Log.d(TAG, "showGitRepositories: show list")
-        //adapter = RepositoriesAdapter(this, repositories, this)
-        //all_repos_recyclerview.adapter = adapter
-    }
+    override fun onSupportNavigateUp(): Boolean = navigation.navigateUp()
 
     override fun showProgress() {
-        Log.d(TAG, "showProgress: LOADING...")
-        //loading_layout.visibility = View.VISIBLE
+
     }
 
     override fun hideProgress() {
-        Log.d(TAG, "hideProgress: HIDE PROGRESS")
-        //loading_layout.visibility = View.GONE
+
     }
 
     override fun showError(message: String) {
-        Log.d(TAG, "showError: ERROR $message")
+        //Log.d(TAG, "showError: ERROR $message")
+    }
+
+    override fun repositoryClicked(repository: GitRepository) {
+        /*val repositoryDetailFragment = RepositoryDetailFragment.newInstance()
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction()
+            .replace(R.id.navFragment, repositoryDetailFragment)
+            .addToBackStack(null)
+            .commit()*/
+        navigation.navigate(R.id.action_mainFragment_to_repositoryDetailFragment)
     }
 }

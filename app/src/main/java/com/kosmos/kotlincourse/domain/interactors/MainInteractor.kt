@@ -8,16 +8,5 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 @ActivityScope
-class MainInteractor @Inject constructor(private val gitResponseRepository: GitResponseRepository,
-                                        private val schedulersProvider: SchedulersProvider) {
-    fun getGitRepositories() = gitResponseRepository.getGitRepositoriesInfo().toObservable()
-        .flatMap { repos -> Observable.fromIterable(repos) }
-        .flatMap(
-            { repo -> gitResponseRepository.getGitRepositiryInfo(repo.owner.username, repo.name).toObservable() },
-            { repo, info -> GitRepository(name = repo.name, fullName = repo.fullName,
-                description = repo.description, ownerLogin = repo.owner.username,
-                ownerAvatarUrl = repo.owner.avatarUrl, language = info.language,
-                starsCount = info.startCount, forksCount = info.forksCount) }
-        )
-        .subscribeOn(schedulersProvider.io())
+class MainInteractor @Inject constructor(private val schedulersProvider: SchedulersProvider) {
 }

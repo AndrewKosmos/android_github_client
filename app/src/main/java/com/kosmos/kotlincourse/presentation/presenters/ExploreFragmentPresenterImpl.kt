@@ -18,10 +18,18 @@ class ExploreFragmentPresenterImpl @Inject constructor(
     private val repositoriesList: MutableList<GitRepository> = mutableListOf()
 
     override fun getGitRepositories() {
+        repositoriesList.clear()
         view.showProgress()
         interactor.getGitRepositories().observeOn(schedulersProvider.ui())
             .subscribe( { repo: GitRepository? -> repo?.let { repositoriesList.add(it) } },
                 this::gitResponseError, this::gitRepositoriesLoaded)
+    }
+
+    override fun refreshGitRepositories() {
+        repositoriesList.clear()
+        interactor.getGitRepositories().observeOn(schedulersProvider.ui())
+            .subscribe( { repo: GitRepository? -> repo?.let { repositoriesList.add(it) } },
+                this::gitResponseError, this::gitRepositoriesReloaded)
     }
 
     override fun onError(message: String) {
@@ -31,6 +39,10 @@ class ExploreFragmentPresenterImpl @Inject constructor(
     fun gitRepositoriesLoaded() {
         view.hideProgress()
         view.showGitRepositories(repositoriesList)
+    }
+
+    fun gitRepositoriesReloaded() {
+        view.refreshGitRepositories(repositoriesList)
     }
 
     fun gitResponseError(throwable: Throwable) {

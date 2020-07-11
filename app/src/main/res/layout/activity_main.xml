@@ -18,7 +18,7 @@
     /><-->
 
 
-    <!--><fragment
+    <fragment
         android:id="@+id/navFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -26,9 +26,16 @@
         app:defaultNavHost="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/routes" /> <-->
+        app:navGraph="@navigation/routes" />
 
-    <androidx.viewpager2.widget.ViewPager2
+    <!--><FrameLayout
+        android:id="@+id/navFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/><-->
+
+    <!--><androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -45,6 +52,7 @@
         android:background="@color/colorPrimary"
         app:tabTextColor="@color/colorWhite"
         app:tabIndicatorGravity="top"
-        app:tabIconTint="@color/colorWhite"/>
+        app:tabIconTint="@color/colorWhite"
+        /> <-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
