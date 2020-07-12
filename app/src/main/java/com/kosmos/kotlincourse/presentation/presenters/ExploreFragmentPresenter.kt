@@ -12,4 +12,5 @@ interface ExploreFragmentPresenter : BasePresenter {
 
     fun getGitRepositories()
     fun refreshGitRepositories()
+    fun repositoryLikeClicked(repository: GitRepository)
 }

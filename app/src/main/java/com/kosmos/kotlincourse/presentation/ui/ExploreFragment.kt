@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kosmos.kotlincourse.CourseApplication
 import com.kosmos.kotlincourse.R
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.utils.Constants
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.presentation.adapters.RepositoriesAdapter
@@ -32,6 +33,7 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
     private lateinit var loadingLayout: ConstraintLayout
     private lateinit var listener: FragmentListener
     private lateinit var swipeContainer: SwipeRefreshLayout
+    private lateinit var favoritesRepository: FavoriteRepoRepository
     private var list: List<GitRepository> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +45,7 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
         Log.d(TAG, "onCreate: Explore frag onAttach")
         super.onAttach(context)
         (activity?.application as CourseApplication).getExploreComponent(this).inject(this)
+        favoritesRepository = (activity?.application as CourseApplication).getApplicationComponent().getFavoritesDbRepository()
     }
 
     override fun onCreateView(
@@ -82,7 +85,7 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
     }
 
     private fun showCachedRepositories() {
-        adapter = RepositoriesAdapter(requireContext(), list.toMutableList(), this)
+        adapter = RepositoriesAdapter(requireContext(), list.toMutableList(), favoritesRepository,this)
         recyclerView.adapter = adapter
     }
 
@@ -91,10 +94,14 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
         listener.repositoryClicked(repository)
     }
 
+    override fun likeClicked(repository: GitRepository) {
+        presenter.repositoryLikeClicked(repository)
+    }
+
     override fun showGitRepositories(repositories: List<GitRepository>) {
         Log.d(Constants.TAG, "showGitRepositories: show list")
         list = repositories
-        adapter = RepositoriesAdapter(requireContext(), repositories.toMutableList(), this)
+        adapter = RepositoriesAdapter(requireContext(), repositories.toMutableList(), favoritesRepository,this)
         recyclerView.adapter = adapter
     }
 

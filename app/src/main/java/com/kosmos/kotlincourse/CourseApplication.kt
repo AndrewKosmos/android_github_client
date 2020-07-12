@@ -23,7 +23,7 @@ class CourseApplication : Application() {
                     SchedulersProvider()
                 )
             )
-            .dataModule(DataModule(Constants.GITHUB_BASE_URL))
+            .dataModule(DataModule(this,Constants.GITHUB_BASE_URL,"database"))
             .build()
     }
 

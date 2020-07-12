@@ -1,10 +1,12 @@
 package com.kosmos.kotlincourse.di.components
 
 import android.content.Context
+import com.kosmos.kotlincourse.data.database.AppDatabase
 import com.kosmos.kotlincourse.data.network.ApiService
 import com.kosmos.kotlincourse.di.modules.ApplicationModule
 import com.kosmos.kotlincourse.di.modules.DataModule
 import com.kosmos.kotlincourse.di.modules.SubcomponentsModule
+import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.repositories.GitResponseRepository
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 import dagger.Component
@@ -22,4 +24,6 @@ interface ApplicationComponent {
     fun getMainComponent() : MainComponent.Factory
     fun getExploreComponent() : ExploreComponent.Factory
     fun getRepoDetailComponent() : DetailsComponent.Factory
+    fun getAppDatabase() : AppDatabase
+    fun getFavoritesDbRepository() : FavoriteRepoRepository
 }

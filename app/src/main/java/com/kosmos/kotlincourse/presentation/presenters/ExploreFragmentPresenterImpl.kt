@@ -6,6 +6,7 @@ import com.kosmos.kotlincourse.domain.interactors.ExploreFragmentInteractor
 import com.kosmos.kotlincourse.domain.models.GitRepository
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.utils.SchedulersProvider
+import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 @FragmentScope
@@ -30,6 +31,23 @@ class ExploreFragmentPresenterImpl @Inject constructor(
         interactor.getGitRepositories().observeOn(schedulersProvider.ui())
             .subscribe( { repo: GitRepository? -> repo?.let { repositoriesList.add(it) } },
                 this::gitResponseError, this::gitRepositoriesReloaded)
+    }
+
+    override fun repositoryLikeClicked(repository: GitRepository) {
+        interactor.isFavorite(repository.fullName).observeOn(schedulersProvider.ui())
+            .subscribe { value ->
+                run {
+                    if (value == 1) {
+                        interactor.deleteFavoriteRepository(repository)
+                            .observeOn(schedulersProvider.io())
+                            .subscribe()
+                    } else {
+                        interactor.insertFavoriteRepository(repository)
+                            .observeOn(schedulersProvider.io())
+                            .subscribe()
+                    }
+                }
+            }
     }
 
     override fun onError(message: String) {

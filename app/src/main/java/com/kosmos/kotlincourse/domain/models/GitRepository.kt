@@ -4,20 +4,20 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class GitRepository (
-    val name: String?,
-    val fullName: String?,
+    val name: String,
+    val fullName: String,
     val description: String?,
-    val ownerLogin: String?,
+    val ownerLogin: String,
     val ownerAvatarUrl: String?,
     val language: String?,
     val starsCount: Int?,
     val forksCount: Int?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString().toString(),
+        parcel.readString().toString(),
         parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
+        parcel.readString().toString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,

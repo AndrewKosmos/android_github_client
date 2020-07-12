@@ -11,14 +11,20 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kosmos.kotlincourse.R
+import com.kosmos.kotlincourse.data.repositories.FavoriteRepoRepositoryImpl
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.presentation.ui.MainActivity
 import de.hdodenhof.circleimageview.CircleImageView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 
 class RepositoriesAdapter(
     private val context: Context,
     private var repositories: MutableList<GitRepository>,
+    private var favoritesRepository: FavoriteRepoRepository,
     private val listener: AdapterListener) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
 
     fun clear() {
@@ -56,6 +62,19 @@ class RepositoriesAdapter(
                 holder.languageImageView.isVisible = true
                 holder.languageView.text = it
             }
+
+            favoritesRepository.isFavorite(fullName).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(Consumer { value ->
+                    if (value == 1) {
+                        holder.likeImageView.setImageResource(R.drawable.ic_heart_enabled)
+                        holder.isFavorite = true
+                    }
+                    else {
+                        holder.likeImageView.setImageResource(R.drawable.ic_heart_disabled)
+                        holder.isFavorite = false
+                    }
+                })
         }
 
         holder.itemView.setOnClickListener {
@@ -64,7 +83,14 @@ class RepositoriesAdapter(
         }
 
         holder.likeImageView.setOnClickListener {
-            holder.likeImageView.setImageResource(R.drawable.ic_heart_enabled)
+            if (holder.isFavorite) {
+                holder.likeImageView.setImageResource(R.drawable.ic_heart_disabled)
+            }
+            else
+            {
+                holder.likeImageView.setImageResource(R.drawable.ic_heart_enabled)
+            }
+            listener.likeClicked(repository)
         }
     }
 
@@ -78,6 +104,7 @@ class RepositoriesAdapter(
         var languageView: TextView
         var languageImageView: ImageView
         var likeImageView: ImageView
+        var isFavorite = false
 
         constructor(itemView: View) : super(itemView) {
             avatarView = itemView.findViewById(R.id.profile_image)
@@ -94,6 +121,7 @@ class RepositoriesAdapter(
 
     interface AdapterListener {
         fun itemClicked(repository: GitRepository)
+        fun likeClicked(repository: GitRepository)
     }
 
 }
