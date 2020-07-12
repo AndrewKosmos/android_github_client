@@ -2,16 +2,11 @@ package com.kosmos.kotlincourse
 
 import android.app.Application
 import com.kosmos.kotlincourse.data.network.Constants
-import com.kosmos.kotlincourse.di.components.ApplicationComponent
-import com.kosmos.kotlincourse.di.components.DaggerApplicationComponent
-import com.kosmos.kotlincourse.di.components.ExploreComponent
-import com.kosmos.kotlincourse.di.components.MainComponent
-import com.kosmos.kotlincourse.di.modules.ApplicationModule
-import com.kosmos.kotlincourse.di.modules.DataModule
-import com.kosmos.kotlincourse.di.modules.ExploreModule
-import com.kosmos.kotlincourse.di.modules.MainModule
+import com.kosmos.kotlincourse.di.components.*
+import com.kosmos.kotlincourse.di.modules.*
 import com.kosmos.kotlincourse.presentation.ui.ExploreFragment
 import com.kosmos.kotlincourse.presentation.ui.MainActivity
+import com.kosmos.kotlincourse.presentation.ui.RepositoryDetailFragment
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 
 class CourseApplication : Application() {
@@ -46,5 +41,10 @@ class CourseApplication : Application() {
             ExploreModule(
                 exploreFragment
             )
+        )
+
+    fun getRepoDetailsComponent(detailsFragment: RepositoryDetailFragment) : DetailsComponent = applicationComponent
+        .getRepoDetailComponent().create(
+            RepositoryDetailModule(detailsFragment)
         )
 }

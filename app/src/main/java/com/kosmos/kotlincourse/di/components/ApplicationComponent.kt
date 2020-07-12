@@ -21,4 +21,5 @@ interface ApplicationComponent {
     fun getGitResponseRepository() : GitResponseRepository
     fun getMainComponent() : MainComponent.Factory
     fun getExploreComponent() : ExploreComponent.Factory
+    fun getRepoDetailComponent() : DetailsComponent.Factory
 }

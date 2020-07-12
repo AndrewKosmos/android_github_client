@@ -12,14 +12,20 @@
         <action
             android:id="@+id/action_mainFragment_to_repositoryDetailFragment"
             app:destination="@id/repositoryDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to__right" />
     </fragment>
     <fragment
         android:id="@+id/repositoryDetailFragment"
         android:name="com.kosmos.kotlincourse.presentation.ui.RepositoryDetailFragment"
         android:label="Details"
-        tools:layout="@layout/fragment_repository_detail" />
+        tools:layout="@layout/fragment_repository_detail" >
+        <argument
+            android:name="selectedRepository"
+            app:argType="com.kosmos.kotlincourse.domain.models.GitRepository"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

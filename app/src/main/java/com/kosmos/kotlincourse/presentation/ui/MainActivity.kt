@@ -58,6 +58,8 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.M
             .replace(R.id.navFragment, repositoryDetailFragment)
             .addToBackStack(null)
             .commit()*/
-        navigation.navigate(R.id.action_mainFragment_to_repositoryDetailFragment)
+        val action = MainFragmentDirections.actionMainFragmentToRepositoryDetailFragment()
+        action.selectedRepository = repository
+        navigation.navigate(action)
     }
 }

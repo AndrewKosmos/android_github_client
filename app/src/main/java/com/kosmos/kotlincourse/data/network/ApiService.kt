@@ -1,5 +1,6 @@
 package com.kosmos.kotlincourse.data.network
 
+import com.kosmos.kotlincourse.domain.models.Commit
 import com.kosmos.kotlincourse.domain.models.GitRepositoryInfo
 import com.kosmos.kotlincourse.domain.models.GitRepositoryInfoGlobal
 import io.reactivex.Observable
@@ -14,5 +15,8 @@ interface ApiService {
 
     @GET("/repos/{owner}/{repoName}")
     fun getRepository(@Path("owner") owner: String, @Path("repoName") name:String) : Single<GitRepositoryInfo>
+
+    @GET("/repos/{owner}/{repoName}/commits")
+    fun getCommits(@Path("owner") owner: String, @Path("repoName") name: String) : Single<List<Commit>>
 
 }

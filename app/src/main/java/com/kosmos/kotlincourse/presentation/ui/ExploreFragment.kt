@@ -102,9 +102,7 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
         list = repositories
         adapter.clear()
         adapter.addAll(repositories)
-        Log.d(TAG, "refreshGitRepositories: Set to false")
         swipeContainer.isRefreshing = false
-        Log.d(TAG, "refreshGitRepositories: is refreshing = ${swipeContainer.isRefreshing}")
     }
 
     override fun showProgress() {
