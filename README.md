@@ -2,3 +2,4 @@
 Client for github
 
 1 step : ~6-7 hours
+1-6 step: ~24-30 hours
