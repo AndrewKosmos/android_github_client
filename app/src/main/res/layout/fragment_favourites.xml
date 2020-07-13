@@ -3,11 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.FavouritesFragment">
+    tools:context=".presentation.ui.FavoritesFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favorite_repos_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Fragment2" />
+        android:layout_height="match_parent"/>
+
+    <include
+        android:id="@+id/fav_loading_layout"
+        layout="@layout/loading_view"
+        android:visibility="gone"
+        />
 
 </FrameLayout>

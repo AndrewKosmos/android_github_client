@@ -9,7 +9,9 @@ interface RepositoryDetailPresenter : BasePresenter {
     interface View : BaseView {
         fun showRepositoryInfo(repository: GitRepository)
         fun showCommits(commits: List<Commit>)
+        fun showLikeViewState(liked: Boolean)
     }
 
     fun getCommits(owner: String, name: String)
+    fun repositoryLikeClicked(repository: GitRepository)
 }

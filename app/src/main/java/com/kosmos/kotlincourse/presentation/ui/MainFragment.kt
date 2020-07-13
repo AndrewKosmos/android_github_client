@@ -15,7 +15,7 @@ import com.kosmos.kotlincourse.domain.models.GitRepository
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.presentation.adapters.ViewPagerAdapter
 
-class MainFragment : Fragment(), ExploreFragment.FragmentListener {
+class MainFragment : Fragment(), ExploreFragment.FragmentListener, FavoritesFragment.FragmentListener {
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var listener: MainFragmentListener
@@ -41,6 +41,16 @@ class MainFragment : Fragment(), ExploreFragment.FragmentListener {
                 tab.text = viewPagerAdapter.tabNames[position]
                 tab.icon = resources.getDrawable(viewPagerAdapter.icons[position], requireActivity().theme)
             }).attach()
+
+        /*viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                val fragment = viewPagerAdapter.getFragmentAtPosition(position)
+                if (fragment is FavoritesFragment) {
+                    fragment.reloadFavorites()
+                }
+                super.onPageSelected(position)
+            }
+        })*/
         return view
     }
 
@@ -56,6 +66,14 @@ class MainFragment : Fragment(), ExploreFragment.FragmentListener {
     override fun repositoryClicked(repository: GitRepository) {
         Log.d(TAG, "repositoryClicked: MainFragment")
         listener.repositoryClicked(repository)
+    }
+
+    override fun favoriteDeleted(repository: GitRepository) {
+
+    }
+
+    override fun favoriteAdded(repository: GitRepository) {
+
     }
 
     interface MainFragmentListener {

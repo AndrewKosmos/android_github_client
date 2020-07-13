@@ -6,8 +6,10 @@ import com.kosmos.kotlincourse.presentation.ui.BaseView
 interface ExploreFragmentPresenter : BasePresenter {
 
     interface View : BaseView {
-        fun showGitRepositories(repositories : List<GitRepository>)
+        fun showGitRepositories(repositories: List<GitRepository>)
         fun refreshGitRepositories(repositories: List<GitRepository>)
+        fun favoriteDeleted(repository: GitRepository)
+        fun favoriteAdded(repository: GitRepository)
     }
 
     fun getGitRepositories()

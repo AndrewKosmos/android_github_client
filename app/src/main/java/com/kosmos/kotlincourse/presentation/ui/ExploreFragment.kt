@@ -112,6 +112,14 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
         swipeContainer.isRefreshing = false
     }
 
+    override fun favoriteDeleted(repository: GitRepository) {
+        listener.favoriteDeleted(repository)
+    }
+
+    override fun favoriteAdded(repository: GitRepository) {
+        listener.favoriteAdded(repository)
+    }
+
     override fun showProgress() {
         Log.d(Constants.TAG, "showProgress: LOADING...")
         loadingLayout.visibility = View.VISIBLE
@@ -128,5 +136,7 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
     
     interface FragmentListener {
         fun repositoryClicked(repository: GitRepository)
+        fun favoriteDeleted(repository: GitRepository)
+        fun favoriteAdded(repository: GitRepository)
     }
 }

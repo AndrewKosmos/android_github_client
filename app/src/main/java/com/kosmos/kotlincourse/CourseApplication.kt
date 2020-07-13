@@ -5,6 +5,7 @@ import com.kosmos.kotlincourse.data.network.Constants
 import com.kosmos.kotlincourse.di.components.*
 import com.kosmos.kotlincourse.di.modules.*
 import com.kosmos.kotlincourse.presentation.ui.ExploreFragment
+import com.kosmos.kotlincourse.presentation.ui.FavoritesFragment
 import com.kosmos.kotlincourse.presentation.ui.MainActivity
 import com.kosmos.kotlincourse.presentation.ui.RepositoryDetailFragment
 import com.kosmos.kotlincourse.utils.SchedulersProvider
@@ -46,5 +47,12 @@ class CourseApplication : Application() {
     fun getRepoDetailsComponent(detailsFragment: RepositoryDetailFragment) : DetailsComponent = applicationComponent
         .getRepoDetailComponent().create(
             RepositoryDetailModule(detailsFragment)
+        )
+
+    fun getFavoritesComponent(favoritesFragment: FavoritesFragment) : FavoritesComponent = applicationComponent
+        .getFavoritesComponent().create(
+            FavoritesModule(
+                favoritesFragment
+            )
         )
 }

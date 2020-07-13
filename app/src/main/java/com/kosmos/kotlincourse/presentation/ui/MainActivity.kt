@@ -22,7 +22,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.MainFragmentListener {
 
     @Inject lateinit var mainPresenter: MainPresenter
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var navigation: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,10 +30,6 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.M
         navigation = Navigation.findNavController(this, R.id.navFragment)
         NavigationUI.setupActionBarWithNavController(this, navigation)
         (application as CourseApplication).getMainComponent(this).inject(this)
-        /*val fragment = MainFragment.newInstance()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.navFragment, fragment)
-            .commit()*/
     }
 
     override fun onSupportNavigateUp(): Boolean = navigation.navigateUp()
@@ -52,12 +47,6 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.M
     }
 
     override fun repositoryClicked(repository: GitRepository) {
-        /*val repositoryDetailFragment = RepositoryDetailFragment.newInstance()
-        val fragmentManager = supportFragmentManager
-        fragmentManager.beginTransaction()
-            .replace(R.id.navFragment, repositoryDetailFragment)
-            .addToBackStack(null)
-            .commit()*/
         val action = MainFragmentDirections.actionMainFragmentToRepositoryDetailFragment()
         action.selectedRepository = repository
         navigation.navigate(action)

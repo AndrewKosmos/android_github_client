@@ -23,6 +23,7 @@ interface ApplicationComponent {
     fun getGitResponseRepository() : GitResponseRepository
     fun getMainComponent() : MainComponent.Factory
     fun getExploreComponent() : ExploreComponent.Factory
+    fun getFavoritesComponent() : FavoritesComponent.Factory
     fun getRepoDetailComponent() : DetailsComponent.Factory
     fun getAppDatabase() : AppDatabase
     fun getFavoritesDbRepository() : FavoriteRepoRepository

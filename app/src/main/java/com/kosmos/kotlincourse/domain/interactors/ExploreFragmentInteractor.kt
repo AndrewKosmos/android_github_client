@@ -23,12 +23,7 @@ class ExploreFragmentInteractor @Inject constructor(private val gitResponseRepos
         )
         .subscribeOn(schedulersProvider.io())
 
-    fun getAllFavoritesRepos() = favoritesDbRepository.getAll().subscribeOn(schedulersProvider.io())
-    fun getFavoriteRepository(fullName: String) = favoritesDbRepository.getRepository(fullName)
-        .subscribeOn(schedulersProvider.io())
     fun insertFavoriteRepository(repository: GitRepository) = favoritesDbRepository.insert(repository)
-        .subscribeOn(schedulersProvider.io())
-    fun updateFavoriteRepository(repository: GitRepository) = favoritesDbRepository.update(repository)
         .subscribeOn(schedulersProvider.io())
     fun deleteFavoriteRepository(repository: GitRepository) = favoritesDbRepository.delete(repository)
         .subscribeOn(schedulersProvider.io())

@@ -3,6 +3,7 @@ package com.kosmos.kotlincourse.presentation.presenters
 import android.util.Log
 import com.kosmos.kotlincourse.domain.interactors.RepositoryDetailInteractor
 import com.kosmos.kotlincourse.domain.models.Commit
+import com.kosmos.kotlincourse.domain.models.GitRepository
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 import io.reactivex.Observable
@@ -21,6 +22,25 @@ class RepositoryDetailPresenterImpl @Inject constructor(
         interactor.getCommits(owner, name)
             .observeOn(schedulersProvider.ui())
             .subscribe(this::commitsLoaded, this::commitsLoadError)
+    }
+
+    override fun repositoryLikeClicked(repository: GitRepository) {
+        interactor.isFavorite(repository.fullName).observeOn(schedulersProvider.ui())
+            .subscribe { value ->
+                run {
+                    if (value == 1) {
+                        view.showLikeViewState(false)
+                        interactor.deleteFavoriteRepository(repository)
+                            .observeOn(schedulersProvider.io())
+                            .subscribe()
+                    } else {
+                        view.showLikeViewState(true)
+                        interactor.insertFavoriteRepository(repository)
+                            .observeOn(schedulersProvider.io())
+                            .subscribe()
+                    }
+                }
+            }
     }
 
     override fun onError(message: String) {

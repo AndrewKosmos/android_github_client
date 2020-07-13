@@ -49,6 +49,15 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
 
+            <ImageView
+                android:id="@+id/detailLikeBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_heart_disabled"
+                app:layout_constraintTop_toBottomOf="@id/detailsAuthorLayout"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="8dp"/>
+
             <TextView
                 android:id="@+id/detailRepoDesc"
                 android:layout_marginTop="8dp"

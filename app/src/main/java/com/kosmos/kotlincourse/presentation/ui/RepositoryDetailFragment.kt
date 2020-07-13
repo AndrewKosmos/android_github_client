@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,9 +16,12 @@ import com.kosmos.kotlincourse.CourseApplication
 import com.kosmos.kotlincourse.R
 import com.kosmos.kotlincourse.domain.models.Commit
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.presentation.adapters.CommitsAdapter
 import com.kosmos.kotlincourse.presentation.presenters.RepositoryDetailPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_repository_detail.*
 import javax.inject.Inject
 
@@ -27,6 +31,8 @@ class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
     private lateinit var adapter: CommitsAdapter
     private lateinit var commitsRecyclerView: RecyclerView
     private lateinit var loadLayout: View
+    private lateinit var likeImageView: ImageView
+    private lateinit var favoritesRepositoryRef: FavoriteRepoRepository
     private var selectedRepository: GitRepository? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +42,9 @@ class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity?.application as CourseApplication).getRepoDetailsComponent(this).inject(this)
+        favoritesRepositoryRef = (activity?.application as CourseApplication)
+            .getApplicationComponent()
+            .getFavoritesDbRepository()
     }
 
     override fun onCreateView(
@@ -44,6 +53,7 @@ class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_repository_detail, container, false)
         loadLayout = view.findViewById(R.id.commitLoadLayout)
+        likeImageView = view.findViewById(R.id.detailLikeBtn)
         commitsRecyclerView = view.findViewById(R.id.commitsRecyclerView)
         commitsRecyclerView.layoutManager = LinearLayoutManager(context)
         commitsRecyclerView.addItemDecoration(
@@ -58,6 +68,24 @@ class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
             showRepositoryInfo(it)
             if ( !it.ownerLogin.isNullOrEmpty() && !it.name.isNullOrEmpty() ) {
                 presenter.getCommits(it.ownerLogin, it.name)
+            }
+
+            selectedRepository?.fullName?.let {
+                favoritesRepositoryRef.isFavorite(it).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { value ->
+                        run {
+                            if (value == 1) {
+                                likeImageView.setImageResource(R.drawable.ic_heart_enabled)
+                            } else {
+                                likeImageView.setImageResource(R.drawable.ic_heart_disabled)
+                            }
+                        }
+                    }
+            }
+
+            likeImageView.setOnClickListener {
+                presenter.repositoryLikeClicked(selectedRepository!!)
             }
         }
     }
@@ -82,6 +110,15 @@ class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
     override fun showCommits(commits: List<Commit>) {
         adapter = CommitsAdapter(requireContext(), commits.toMutableList())
         commitsRecyclerView.adapter = adapter
+    }
+
+    override fun showLikeViewState(liked: Boolean) {
+        if (liked) {
+            likeImageView.setImageResource(R.drawable.ic_heart_enabled)
+        }
+        else {
+            likeImageView.setImageResource(R.drawable.ic_heart_disabled)
+        }
     }
 
     override fun showProgress() {

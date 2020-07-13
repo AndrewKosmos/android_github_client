@@ -41,10 +41,12 @@ class ExploreFragmentPresenterImpl @Inject constructor(
                         interactor.deleteFavoriteRepository(repository)
                             .observeOn(schedulersProvider.io())
                             .subscribe()
+                        view.favoriteDeleted(repository)
                     } else {
                         interactor.insertFavoriteRepository(repository)
                             .observeOn(schedulersProvider.io())
                             .subscribe()
+                        view.favoriteAdded(repository)
                     }
                 }
             }
