@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/routes"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.kosmos.kotlincourse.presentation.ui.MainFragment"
+        android:label="KotlinCourse"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_repositoryDetailFragment"
+            app:destination="@id/repositoryDetailFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to__right" />
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryDetailFragment"
+        android:name="com.kosmos.kotlincourse.presentation.ui.RepositoryDetailFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_repository_detail" >
+        <argument
+            android:name="selectedRepository"
+            app:argType="com.kosmos.kotlincourse.domain.models.GitRepository"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+</navigation>

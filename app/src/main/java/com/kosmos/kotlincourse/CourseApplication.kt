@@ -2,13 +2,12 @@ package com.kosmos.kotlincourse
 
 import android.app.Application
 import com.kosmos.kotlincourse.data.network.Constants
-import com.kosmos.kotlincourse.di.components.ApplicationComponent
-import com.kosmos.kotlincourse.di.components.DaggerApplicationComponent
-import com.kosmos.kotlincourse.di.components.MainComponent
-import com.kosmos.kotlincourse.di.modules.ApplicationModule
-import com.kosmos.kotlincourse.di.modules.DataModule
-import com.kosmos.kotlincourse.di.modules.MainModule
+import com.kosmos.kotlincourse.di.components.*
+import com.kosmos.kotlincourse.di.modules.*
+import com.kosmos.kotlincourse.presentation.ui.ExploreFragment
+import com.kosmos.kotlincourse.presentation.ui.FavoritesFragment
 import com.kosmos.kotlincourse.presentation.ui.MainActivity
+import com.kosmos.kotlincourse.presentation.ui.RepositoryDetailFragment
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 
 class CourseApplication : Application() {
@@ -25,7 +24,7 @@ class CourseApplication : Application() {
                     SchedulersProvider()
                 )
             )
-            .dataModule(DataModule(Constants.GITHUB_BASE_URL))
+            .dataModule(DataModule(this,Constants.GITHUB_BASE_URL,"database"))
             .build()
     }
 
@@ -35,6 +34,25 @@ class CourseApplication : Application() {
         .getMainComponent().create(
             MainModule(
                 mainActivity
+            )
+        )
+
+    fun getExploreComponent(exploreFragment: ExploreFragment) : ExploreComponent = applicationComponent
+        .getExploreComponent().create(
+            ExploreModule(
+                exploreFragment
+            )
+        )
+
+    fun getRepoDetailsComponent(detailsFragment: RepositoryDetailFragment) : DetailsComponent = applicationComponent
+        .getRepoDetailComponent().create(
+            RepositoryDetailModule(detailsFragment)
+        )
+
+    fun getFavoritesComponent(favoritesFragment: FavoritesFragment) : FavoritesComponent = applicationComponent
+        .getFavoritesComponent().create(
+            FavoritesModule(
+                favoritesFragment
             )
         )
 }

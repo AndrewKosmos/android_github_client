@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.FavoritesFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favorite_repos_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <include
+        android:id="@+id/fav_loading_layout"
+        layout="@layout/loading_view"
+        android:visibility="gone"
+        />
+
+</FrameLayout>

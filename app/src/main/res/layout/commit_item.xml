@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/commitText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        tools:text="Commit message"/>
+
+    <TextView
+        android:id="@+id/commitDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/commitText"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        tools:text="11.07.2020"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/commitAvatar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toBottomOf="@id/commitText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="8dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/commitAuthorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/commitText"
+        app:layout_constraintLeft_toRightOf="@id/commitAvatar"
+        tools:text="Author"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/commitAuthorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/commitText"
+        app:layout_constraintLeft_toRightOf="@id/commitAuthorText"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:text="authored"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
