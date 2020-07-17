@@ -16,6 +16,7 @@ import com.kosmos.kotlincourse.CourseApplication
 import com.kosmos.kotlincourse.R
 import com.kosmos.kotlincourse.domain.models.Commit
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.presentation.adapters.CommitsAdapter
@@ -28,6 +29,7 @@ import javax.inject.Inject
 class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
 
     @Inject lateinit var presenter: RepositoryDetailPresenter
+    @Inject lateinit var sessionManager: SessionManager
     private lateinit var adapter: CommitsAdapter
     private lateinit var commitsRecyclerView: RecyclerView
     private lateinit var loadLayout: View
@@ -71,7 +73,7 @@ class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
             }
 
             selectedRepository?.fullName?.let {
-                favoritesRepositoryRef.isFavorite(it).subscribeOn(Schedulers.io())
+                favoritesRepositoryRef.isFavorite(it, sessionManager.currentLogin!!).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { value ->
                         run {
@@ -127,9 +129,5 @@ class RepositoryDetailFragment : Fragment(), RepositoryDetailPresenter.View {
 
     override fun hideProgress() {
         loadLayout.visibility = View.GONE
-    }
-
-    override fun showError(message: String) {
-        TODO("Not yet implemented")
     }
 }

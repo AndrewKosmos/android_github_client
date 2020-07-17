@@ -3,14 +3,15 @@ package com.kosmos.kotlincourse.data.database.mappers
 import com.kosmos.kotlincourse.data.database.models.FavoriteRepositoryDbModel
 import com.kosmos.kotlincourse.domain.models.GitRepository
 
-fun GitRepository.toFavoriteRepositoryDbModel() = FavoriteRepositoryDbModel(this.fullName,
-                                                                            this.ownerLogin,
-                                                                            this.name,
-                                                                            this.description,
-                                                                            this.ownerAvatarUrl,
-                                                                            this.language,
-                                                                            this.starsCount,
-                                                                            this.forksCount)
+fun GitRepository.toFavoriteRepositoryDbModel(forUser: String) = FavoriteRepositoryDbModel(forUser,
+    this.fullName,
+    this.ownerLogin,
+    this.name,
+    this.description,
+    this.ownerAvatarUrl,
+    this.language,
+    this.starsCount,
+    this.forksCount)
 
 fun FavoriteRepositoryDbModel.toGitRepositoryModel() = GitRepository(this.name,
                                                                     this.fullName,
@@ -21,10 +22,10 @@ fun FavoriteRepositoryDbModel.toGitRepositoryModel() = GitRepository(this.name,
                                                                     this.starsCount,
                                                                     this.forksCount)
 
-fun List<GitRepository>.toDbList() : List<FavoriteRepositoryDbModel> {
+fun List<GitRepository>.toDbList(currentUser: String) : List<FavoriteRepositoryDbModel> {
     val resultList: MutableList<FavoriteRepositoryDbModel> = mutableListOf()
     for (item in this) {
-        resultList.add(item.toFavoriteRepositoryDbModel())
+        resultList.add(item.toFavoriteRepositoryDbModel(currentUser))
     }
     return resultList
 }

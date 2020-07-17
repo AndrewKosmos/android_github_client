@@ -7,6 +7,8 @@ interface FavoriteFragmentPresenter : BasePresenter {
 
     interface View : BaseView {
         fun showFavorites(favoritesList: List<GitRepository>)
+        fun showEmptyState()
+        fun hideEmptyState()
     }
 
     fun getAllFavorites()

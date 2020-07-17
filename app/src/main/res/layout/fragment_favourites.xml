@@ -16,4 +16,9 @@
         android:visibility="gone"
         />
 
+    <include
+        android:id="@+id/empty_state_layout"
+        layout="@layout/empty_state"
+        android:visibility="gone"/>
+
 </FrameLayout>

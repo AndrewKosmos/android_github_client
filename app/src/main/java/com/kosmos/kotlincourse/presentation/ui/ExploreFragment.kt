@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kosmos.kotlincourse.CourseApplication
 import com.kosmos.kotlincourse.R
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.utils.Constants
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
@@ -28,6 +29,7 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
 
     @Inject
     lateinit var presenter: ExploreFragmentPresenter
+    @Inject lateinit var  sessionManager: SessionManager
     private lateinit var adapter: RepositoriesAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var loadingLayout: ConstraintLayout
@@ -36,13 +38,7 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
     private lateinit var favoritesRepository: FavoriteRepoRepository
     private var list: List<GitRepository> = listOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate: Explore frag create")
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onAttach(context: Context) {
-        Log.d(TAG, "onCreate: Explore frag onAttach")
         super.onAttach(context)
         (activity?.application as CourseApplication).getExploreComponent(this).inject(this)
         favoritesRepository = (activity?.application as CourseApplication).getApplicationComponent().getFavoritesDbRepository()
@@ -52,7 +48,6 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "onCreate: Explore frag create view")
         var view = inflater.inflate(R.layout.fragment_explore, container, false)
         recyclerView = view.findViewById(R.id.all_repos_recyclerview)
         loadingLayout = view.findViewById(R.id.loading_layout)
@@ -85,12 +80,15 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
     }
 
     private fun showCachedRepositories() {
-        adapter = RepositoriesAdapter(requireContext(), list.toMutableList(), favoritesRepository,this)
+        adapter = RepositoriesAdapter(requireContext(),
+            list.toMutableList(),
+            favoritesRepository,
+            this,
+            sessionManager.currentLogin!!)
         recyclerView.adapter = adapter
     }
 
     override fun itemClicked(repository: GitRepository) {
-        //Log.d(Constants.TAG, "itemClicked: ${repository.name}")
         listener.repositoryClicked(repository)
     }
 
@@ -101,7 +99,11 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
     override fun showGitRepositories(repositories: List<GitRepository>) {
         Log.d(Constants.TAG, "showGitRepositories: show list")
         list = repositories
-        adapter = RepositoriesAdapter(requireContext(), repositories.toMutableList(), favoritesRepository,this)
+        adapter = RepositoriesAdapter(requireContext(),
+            repositories.toMutableList(),
+            favoritesRepository,
+            this,
+            sessionManager.currentLogin!!)
         recyclerView.adapter = adapter
     }
 
@@ -110,14 +112,6 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
         adapter.clear()
         adapter.addAll(repositories)
         swipeContainer.isRefreshing = false
-    }
-
-    override fun favoriteDeleted(repository: GitRepository) {
-        listener.favoriteDeleted(repository)
-    }
-
-    override fun favoriteAdded(repository: GitRepository) {
-        listener.favoriteAdded(repository)
     }
 
     override fun showProgress() {
@@ -129,14 +123,8 @@ class ExploreFragment : Fragment(), RepositoriesAdapter.AdapterListener, Explore
         Log.d(Constants.TAG, "hideProgress: HIDE PROGRESS")
         loadingLayout.visibility = View.GONE
     }
-
-    override fun showError(message: String) {
-        Log.d(Constants.TAG, "showError: ERROR $message")
-    }
     
     interface FragmentListener {
         fun repositoryClicked(repository: GitRepository)
-        fun favoriteDeleted(repository: GitRepository)
-        fun favoriteAdded(repository: GitRepository)
     }
 }

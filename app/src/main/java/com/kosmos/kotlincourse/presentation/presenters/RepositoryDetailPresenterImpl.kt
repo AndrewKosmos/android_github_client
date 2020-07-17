@@ -4,6 +4,7 @@ import android.util.Log
 import com.kosmos.kotlincourse.domain.interactors.RepositoryDetailInteractor
 import com.kosmos.kotlincourse.domain.models.Commit
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 import io.reactivex.Observable
@@ -13,7 +14,8 @@ import javax.inject.Inject
 class RepositoryDetailPresenterImpl @Inject constructor(
     private val interactor: RepositoryDetailInteractor,
     private val view: RepositoryDetailPresenter.View,
-    private val schedulersProvider: SchedulersProvider
+    private val schedulersProvider: SchedulersProvider,
+    private var sessionManager: SessionManager
 ) : RepositoryDetailPresenter {
 
     override fun getCommits(owner: String, name: String) {
@@ -25,26 +27,22 @@ class RepositoryDetailPresenterImpl @Inject constructor(
     }
 
     override fun repositoryLikeClicked(repository: GitRepository) {
-        interactor.isFavorite(repository.fullName).observeOn(schedulersProvider.ui())
+        interactor.isFavorite(repository.fullName, sessionManager.currentLogin!!).observeOn(schedulersProvider.ui())
             .subscribe { value ->
                 run {
                     if (value == 1) {
                         view.showLikeViewState(false)
-                        interactor.deleteFavoriteRepository(repository)
+                        interactor.deleteFavoriteRepository(repository, sessionManager.currentLogin!!)
                             .observeOn(schedulersProvider.io())
                             .subscribe()
                     } else {
                         view.showLikeViewState(true)
-                        interactor.insertFavoriteRepository(repository)
+                        interactor.insertFavoriteRepository(repository, sessionManager.currentLogin!!)
                             .observeOn(schedulersProvider.io())
                             .subscribe()
                     }
                 }
             }
-    }
-
-    override fun onError(message: String) {
-        Log.d(TAG, "onError: $message")
     }
 
     private fun commitsLoaded(commits: List<Commit>) {

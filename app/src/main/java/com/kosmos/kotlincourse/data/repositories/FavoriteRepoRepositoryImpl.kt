@@ -12,22 +12,19 @@ import javax.inject.Inject
 class FavoriteRepoRepositoryImpl @Inject constructor(
     private val dao : FavoriteRepositoryDao
 ) : FavoriteRepoRepository {
-    override fun getAll(): Single<List<GitRepository>> = dao.getAll().map { it.toDomainList() }
+    override fun getAll(forUser: String): Single<List<GitRepository>> = dao.getAll(forUser).map { it.toDomainList() }
 
-    override fun getAllAsFlowable(): Flowable<List<GitRepository>> = dao.getAllAsFlowable()
+    override fun getAllAsFlowable(forUser: String): Flowable<List<GitRepository>> = dao.getAllAsFlowable(forUser)
         .map { it.toDomainList() }
 
-    override fun getRepository(fullName: String): Single<GitRepository> = dao.getFavoriteRepository(fullName)
-        .map { it.toGitRepositoryModel() }
+    override fun isFavorite(fullName: String, forUser: String): Single<Int> = dao.isFavorite(fullName, forUser)
 
-    override fun isFavorite(fullName: String): Single<Int> = dao.isFavorite(fullName)
+    override fun insert(repository: GitRepository, forUser: String): Completable =
+        dao.insert(repository.toFavoriteRepositoryDbModel(forUser))
 
-    override fun insert(repository: GitRepository) =
-        dao.insert(repository.toFavoriteRepositoryDbModel())
+    override fun update(repository: GitRepository, forUser: String): Completable =
+        dao.update(repository.toFavoriteRepositoryDbModel(forUser))
 
-    override fun update(repository: GitRepository) =
-        dao.update(repository.toFavoriteRepositoryDbModel())
-
-    override fun delete(repository: GitRepository) =
-        dao.delete(repository.toFavoriteRepositoryDbModel())
+    override fun delete(repository: GitRepository, forUser: String): Completable =
+        dao.delete(repository.toFavoriteRepositoryDbModel(forUser))
 }

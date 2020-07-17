@@ -6,6 +6,7 @@ import com.kosmos.kotlincourse.data.network.ApiService
 import com.kosmos.kotlincourse.di.modules.ApplicationModule
 import com.kosmos.kotlincourse.di.modules.DataModule
 import com.kosmos.kotlincourse.di.modules.SubcomponentsModule
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.repositories.GitResponseRepository
 import com.kosmos.kotlincourse.utils.SchedulersProvider
@@ -27,4 +28,6 @@ interface ApplicationComponent {
     fun getRepoDetailComponent() : DetailsComponent.Factory
     fun getAppDatabase() : AppDatabase
     fun getFavoritesDbRepository() : FavoriteRepoRepository
+    fun getSessionManager() : SessionManager
+    fun getLoginComponent() : LoginComponent.Factory
 }

@@ -6,9 +6,11 @@ import com.kosmos.kotlincourse.data.database.AppDatabase
 import com.kosmos.kotlincourse.data.database.dao.FavoriteRepositoryDao
 import com.kosmos.kotlincourse.data.network.ApiService
 import com.kosmos.kotlincourse.data.network.AuthInterceptor
+import com.kosmos.kotlincourse.data.network.BasicAuthInterceptor
 import com.kosmos.kotlincourse.data.network.Constants
 import com.kosmos.kotlincourse.data.repositories.FavoriteRepoRepositoryImpl
 import com.kosmos.kotlincourse.data.repositories.GitResponseRepositoryImpl
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.domain.repositories.FavoriteRepoRepository
 import com.kosmos.kotlincourse.domain.repositories.GitResponseRepository
 import dagger.Module
@@ -34,11 +36,16 @@ class DataModule(
 
     @Provides
     @Singleton
+    fun provideSessionManager() : SessionManager = SessionManager(context)
+
+    @Provides
+    @Singleton
     fun provideRetrofit() : Retrofit {
         return Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor(AuthInterceptor(Constants.GIT_PRIVATE_TOKEN)).build())
+//            .client(OkHttpClient.Builder().addInterceptor(AuthInterceptor(Constants.GIT_PRIVATE_TOKEN)).build())
+            .client(OkHttpClient.Builder().addInterceptor(BasicAuthInterceptor(context)).build())
             .build()
     }
 
