@@ -59,17 +59,9 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.M
         finish()
     }
 
-    override fun showProgress() {
+    override fun showProgress() { }
 
-    }
-
-    override fun hideProgress() {
-
-    }
-
-    override fun showError(message: String) {
-        Log.d(TAG, "showError: ERROR $message")
-    }
+    override fun hideProgress() { }
 
     override fun repositoryClicked(repository: GitRepository) {
         val action = MainFragmentDirections.actionMainFragmentToRepositoryDetailFragment()

@@ -30,7 +30,7 @@ class CourseApplication : Application() {
 
     fun getApplicationComponent() : ApplicationComponent = applicationComponent
 
-    fun getSessionManager() : SessionManager = sessionManager
+    fun getSessionManager() : SessionManager = applicationComponent.getSessionManager()
 
     fun getMainComponent(mainActivity: MainActivity) : MainComponent = applicationComponent
         .getMainComponent().create(

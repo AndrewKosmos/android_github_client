@@ -20,6 +20,7 @@ class LoginPresenterImpl @Inject constructor(
 ) : LoginPresenter {
 
     override fun signIn(login: String, password: String) {
+        view.showProgress()
         sessionManager.currentLogin = login
         sessionManager.currentPasswd = password
         interactor.getSignInResponse(login, password)
@@ -34,14 +35,12 @@ class LoginPresenterImpl @Inject constructor(
         }
     }
 
-    override fun onError(message: String) {
-        Log.d(TAG, "onError: $message")
-    }
-
     fun recievedSigninResponse(response: Response<SigninResponse>) {
+        view.hideProgress()
         when (response.code()) {
             HttpsURLConnection.HTTP_OK -> {
                 sessionManager.signIn()
+                view.hideBadCredentialsError()
                 view.moveToNextActivity()
             }
             HttpsURLConnection.HTTP_UNAUTHORIZED -> {
@@ -54,6 +53,7 @@ class LoginPresenterImpl @Inject constructor(
     }
 
     fun signinError(throwable: Throwable) {
+        view.hideProgress()
         Log.d("CotlinCourseApp", "signinError: ${throwable.message}")
     }
 }

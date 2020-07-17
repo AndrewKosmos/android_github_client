@@ -10,8 +10,6 @@ class FavoritesFragmentInteractor @Inject constructor(
     private val favoritesRepository: FavoriteRepoRepository,
     private val schedulersProvider: SchedulersProvider
 ) {
-    fun getAllFavorites() = favoritesRepository.getAll().subscribeOn(schedulersProvider.io())
-    fun getAllFavoritesFlowable() = favoritesRepository.getAllAsFlowable().subscribeOn(schedulersProvider.io())
-    fun getFavoriteRepo(fullname: String) = favoritesRepository.getRepository(fullname)
-        .subscribeOn(schedulersProvider.io())
+    fun getAllFavoritesFlowable(forUser: String)
+            = favoritesRepository.getAllAsFlowable(forUser).subscribeOn(schedulersProvider.io())
 }

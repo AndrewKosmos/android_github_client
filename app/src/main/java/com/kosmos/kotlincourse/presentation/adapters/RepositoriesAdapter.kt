@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kosmos.kotlincourse.R
@@ -25,7 +26,8 @@ class RepositoriesAdapter(
     private val context: Context,
     private var repositories: MutableList<GitRepository>,
     private var favoritesRepository: FavoriteRepoRepository,
-    private val listener: AdapterListener) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
+    private val listener: AdapterListener,
+    private val currentUserLogin: String) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
 
     fun clear() {
         repositories.clear()
@@ -63,7 +65,7 @@ class RepositoriesAdapter(
                 holder.languageView.text = it
             }
 
-            favoritesRepository.isFavorite(fullName).subscribeOn(Schedulers.io())
+            favoritesRepository.isFavorite(fullName, currentUserLogin).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(Consumer { value ->
                     if (value == 1) {

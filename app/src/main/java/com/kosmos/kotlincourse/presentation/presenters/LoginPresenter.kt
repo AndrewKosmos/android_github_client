@@ -7,6 +7,7 @@ interface LoginPresenter : BasePresenter {
     interface View : BaseView {
         fun moveToNextActivity()
         fun showBadCredentialsError()
+        fun hideBadCredentialsError()
     }
 
     fun signIn(login: String, password: String)

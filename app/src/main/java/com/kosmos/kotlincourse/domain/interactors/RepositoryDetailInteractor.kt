@@ -19,10 +19,13 @@ class RepositoryDetailInteractor @Inject constructor(private val gitResponseRepo
         .toList()
         .subscribeOn(schedulersProvider.io())
 
-    fun isFavorite(fullname: String) = favoritesRepository.isFavorite(fullname)
+    fun isFavorite(fullname: String, forUser: String)
+            = favoritesRepository.isFavorite(fullname, forUser)
         .subscribeOn(schedulersProvider.io())
-    fun insertFavoriteRepository(repository: GitRepository) = favoritesRepository.insert(repository)
+    fun insertFavoriteRepository(repository: GitRepository, forUser: String)
+            = favoritesRepository.insert(repository, forUser)
         .subscribeOn(schedulersProvider.io())
-    fun deleteFavoriteRepository(repository: GitRepository) = favoritesRepository.delete(repository)
+    fun deleteFavoriteRepository(repository: GitRepository, forUser: String)
+            = favoritesRepository.delete(repository, forUser)
         .subscribeOn(schedulersProvider.io())
 }

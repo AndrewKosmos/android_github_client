@@ -24,6 +24,15 @@
         android:background="@drawable/input_form_bg"
         android:padding="16dp">
 
+        <ProgressBar
+            android:id="@+id/login_loading_layout"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/appSlogan"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
         <ImageView
             android:id="@+id/git_icon"
             android:layout_width="48dp"
@@ -64,11 +73,24 @@
             android:layout_marginTop="8dp"
             />
 
+        <TextView
+            android:id="@+id/login_error_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/passwdEditText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="8dp"
+            android:text="@string/login_error"
+            android:textSize="14sp"
+            android:textColor="#BC0303"
+            android:visibility="gone"/>
+
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/passwdEditText"
+            app:layout_constraintTop_toBottomOf="@id/login_error_tv"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimary"

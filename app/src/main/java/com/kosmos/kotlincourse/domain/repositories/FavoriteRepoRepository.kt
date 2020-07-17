@@ -7,12 +7,11 @@ import io.reactivex.Single
 
 interface FavoriteRepoRepository {
 
-    fun getAll() : Single<List<GitRepository>>
-    fun getAllAsFlowable() : Flowable<List<GitRepository>>
-    fun getRepository(fullName: String) : Single<GitRepository>
-    fun isFavorite(fullName: String) : Single<Int>
-    fun insert(repository: GitRepository) : Completable
-    fun update(repository: GitRepository) : Completable
-    fun delete(repository: GitRepository) : Completable
+    fun getAll(forUser: String) : Single<List<GitRepository>>
+    fun getAllAsFlowable(forUser: String) : Flowable<List<GitRepository>>
+    fun isFavorite(fullName: String, forUser: String) : Single<Int>
+    fun insert(repository: GitRepository, forUser: String) : Completable
+    fun update(repository: GitRepository, forUser: String) : Completable
+    fun delete(repository: GitRepository, forUser: String) : Completable
 
 }

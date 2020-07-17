@@ -8,8 +8,6 @@ interface ExploreFragmentPresenter : BasePresenter {
     interface View : BaseView {
         fun showGitRepositories(repositories: List<GitRepository>)
         fun refreshGitRepositories(repositories: List<GitRepository>)
-        fun favoriteDeleted(repository: GitRepository)
-        fun favoriteAdded(repository: GitRepository)
     }
 
     fun getGitRepositories()

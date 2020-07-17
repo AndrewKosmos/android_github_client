@@ -19,8 +19,4 @@ class MainPresenterImpl @Inject constructor(
         sessionManager.signOut()
         view.moveToLoginScreen()
     }
-
-    override fun onError(message: String) {
-        Log.d(TAG, "onError: $message")
-    }
 }

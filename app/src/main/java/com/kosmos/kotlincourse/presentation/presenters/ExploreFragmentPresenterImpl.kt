@@ -18,10 +18,6 @@ class ExploreFragmentPresenterImpl @Inject constructor(
     private var sessionManager: SessionManager
 ) : ExploreFragmentPresenter {
 
-    init {
-        Log.d(TAG, "init explore presenter with user: ${sessionManager.currentLogin}")
-    }
-
     private val repositoriesList: MutableList<GitRepository> = mutableListOf()
 
     override fun getGitRepositories() {
@@ -40,26 +36,20 @@ class ExploreFragmentPresenterImpl @Inject constructor(
     }
 
     override fun repositoryLikeClicked(repository: GitRepository) {
-        interactor.isFavorite(repository.fullName).observeOn(schedulersProvider.ui())
+        interactor.isFavorite(repository.fullName, sessionManager.currentLogin!!).observeOn(schedulersProvider.ui())
             .subscribe { value ->
                 run {
                     if (value == 1) {
-                        interactor.deleteFavoriteRepository(repository)
+                        interactor.deleteFavoriteRepository(repository, sessionManager.currentLogin!!)
                             .observeOn(schedulersProvider.io())
                             .subscribe()
-                        view.favoriteDeleted(repository)
                     } else {
-                        interactor.insertFavoriteRepository(repository)
+                        interactor.insertFavoriteRepository(repository, sessionManager.currentLogin!!)
                             .observeOn(schedulersProvider.io())
                             .subscribe()
-                        view.favoriteAdded(repository)
                     }
                 }
             }
-    }
-
-    override fun onError(message: String) {
-        Log.d(TAG, "onError: $message")
     }
 
     fun gitRepositoriesLoaded() {

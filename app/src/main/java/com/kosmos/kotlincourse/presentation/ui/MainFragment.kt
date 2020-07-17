@@ -22,10 +22,6 @@ class MainFragment : Fragment(), ExploreFragment.FragmentListener, FavoritesFrag
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,20 +38,7 @@ class MainFragment : Fragment(), ExploreFragment.FragmentListener, FavoritesFrag
                 tab.icon = resources.getDrawable(viewPagerAdapter.icons[position], requireActivity().theme)
             }).attach()
 
-        /*viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                val fragment = viewPagerAdapter.getFragmentAtPosition(position)
-                if (fragment is FavoritesFragment) {
-                    fragment.reloadFavorites()
-                }
-                super.onPageSelected(position)
-            }
-        })*/
         return view
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
     }
 
     companion object {
@@ -66,14 +49,6 @@ class MainFragment : Fragment(), ExploreFragment.FragmentListener, FavoritesFrag
     override fun repositoryClicked(repository: GitRepository) {
         Log.d(TAG, "repositoryClicked: MainFragment")
         listener.repositoryClicked(repository)
-    }
-
-    override fun favoriteDeleted(repository: GitRepository) {
-
-    }
-
-    override fun favoriteAdded(repository: GitRepository) {
-
     }
 
     interface MainFragmentListener {

@@ -5,9 +5,12 @@ import android.net.http.HttpResponseCache
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.kosmos.kotlincourse.CourseApplication
 import com.kosmos.kotlincourse.R
 import com.kosmos.kotlincourse.data.network.ApiService
@@ -26,6 +29,8 @@ class LoginActivity : AppCompatActivity(), LoginPresenter.View {
     private lateinit var loginEditText: EditText
     private lateinit var passwEditText: EditText
     private lateinit var loginButton: Button
+    private lateinit var loadingLayout: View
+    private lateinit var errorTextView: TextView
     @Inject lateinit var presenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +42,8 @@ class LoginActivity : AppCompatActivity(), LoginPresenter.View {
         loginEditText = findViewById(R.id.loginEditText)
         passwEditText = findViewById(R.id.passwdEditText)
         loginButton = findViewById(R.id.loginBtn)
+        loadingLayout = findViewById(R.id.login_loading_layout)
+        errorTextView = findViewById(R.id.login_error_tv)
         presenter.checkLoginStateFromPrefs()
         loginButton.setOnClickListener {
 
@@ -50,25 +57,25 @@ class LoginActivity : AppCompatActivity(), LoginPresenter.View {
     }
 
     override fun moveToNextActivity() {
-        Log.d("CotlinCourseApp", "moveToNextActivity: move")
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     override fun showBadCredentialsError() {
-        Toast.makeText(this, "Bad Credentials!", Toast.LENGTH_SHORT).show()
+        errorTextView.visibility = View.VISIBLE
+    }
+
+    override fun hideBadCredentialsError() {
+        errorTextView.visibility = View.GONE
     }
 
     override fun showProgress() {
-        TODO("Not yet implemented")
+        loadingLayout.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        TODO("Not yet implemented")
+        loadingLayout.visibility = View.GONE
     }
 
-    override fun showError(message: String) {
-        TODO("Not yet implemented")
-    }
 }

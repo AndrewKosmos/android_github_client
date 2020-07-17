@@ -25,7 +25,6 @@ class BasicAuthInterceptor @Inject constructor(val context: Context) : Intercept
         val login = prefs.getString("user_login",null)
         val password = prefs.getString("user_passwd",null)
         val isLoggedIn = prefs.getBoolean("isLogged",false)
-        Log.d(TAG, "intercepting: $login / $password")
         val requestBuilder = chain.request().newBuilder()
         if ( isLoggedIn && !login.isNullOrEmpty() && !password.isNullOrEmpty() ) {
             val credentials = Base64.getEncoder()

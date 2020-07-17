@@ -19,17 +19,19 @@ class FavoriteFragmentPresenterImpl @Inject constructor(
 
     override fun getAllFavorites() {
         view.showProgress()
-        interactor.getAllFavoritesFlowable().observeOn(schedulersProvider.ui())
+        interactor.getAllFavoritesFlowable(sessionManager.currentLogin!!).observeOn(schedulersProvider.ui())
             .subscribe(this::favoritesLoaded, this::loadError)
-    }
-
-    override fun onError(message: String) {
-        Log.d(Constants.TAG, "onError: $message")
     }
 
     fun favoritesLoaded(favoritesList: List<GitRepository>) {
         view.hideProgress()
         view.showFavorites(favoritesList)
+        if (favoritesList.isEmpty()) {
+            view.showEmptyState()
+        }
+        else {
+            view.hideEmptyState()
+        }
     }
 
     fun loadError(throwable: Throwable) {

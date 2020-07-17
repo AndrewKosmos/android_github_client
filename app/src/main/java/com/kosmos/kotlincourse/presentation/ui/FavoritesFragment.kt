@@ -24,6 +24,7 @@ class FavoritesFragment : Fragment(), FavoriteFragmentPresenter.View, FavoritesA
     lateinit var presenter: FavoriteFragmentPresenter
     private lateinit var listener: FavoritesFragment.FragmentListener
     private lateinit var loadingLayout: View
+    private lateinit var emptyStateLayout: View
     private lateinit var adapter: FavoritesAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -42,6 +43,7 @@ class FavoritesFragment : Fragment(), FavoriteFragmentPresenter.View, FavoritesA
     ): View? {
         var view = inflater.inflate(R.layout.fragment_favourites, container, false)
         loadingLayout = view.findViewById(R.id.fav_loading_layout)
+        emptyStateLayout = view.findViewById(R.id.empty_state_layout)
         recyclerView = view.findViewById(R.id.favorite_repos_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.addItemDecoration(
@@ -64,16 +66,20 @@ class FavoritesFragment : Fragment(), FavoriteFragmentPresenter.View, FavoritesA
         recyclerView.adapter = adapter
     }
 
+    override fun showEmptyState() {
+        emptyStateLayout.visibility = View.VISIBLE
+    }
+
+    override fun hideEmptyState() {
+        emptyStateLayout.visibility = View.GONE
+    }
+
     override fun showProgress() {
         loadingLayout.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
         loadingLayout.visibility = View.GONE
-    }
-
-    override fun showError(message: String) {
-        Log.d(TAG, "showError: $message")
     }
 
     override fun itemClicked(repository: GitRepository) {

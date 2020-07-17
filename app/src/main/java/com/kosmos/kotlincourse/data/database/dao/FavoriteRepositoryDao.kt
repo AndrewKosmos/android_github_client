@@ -9,17 +9,17 @@ import io.reactivex.Single
 @Dao
 interface FavoriteRepositoryDao {
 
-    @Query("select * from fav_repos")
-    fun getAll(): Single<List<FavoriteRepositoryDbModel>>
+    @Query("select * from fav_repos where user_login=:forUSer")
+    fun getAll(forUSer: String): Single<List<FavoriteRepositoryDbModel>>
 
-    @Query("select * from fav_repos")
-    fun getAllAsFlowable(): Flowable<List<FavoriteRepositoryDbModel>>
+    @Query("select * from fav_repos where user_login=:forUser")
+    fun getAllAsFlowable(forUser: String): Flowable<List<FavoriteRepositoryDbModel>>
 
-    @Query("select * from fav_repos where full_name = :fullname")
-    fun getFavoriteRepository(fullname: String): Single<FavoriteRepositoryDbModel>
+    @Query("select * from fav_repos where full_name = :fullname and user_login=:forUser")
+    fun getFavoriteRepository(fullname: String, forUser: String): Single<FavoriteRepositoryDbModel>
 
-    @Query("select exists (select 1 from fav_repos where full_name=:fullname)")
-    fun isFavorite(fullname: String) : Single<Int>
+    @Query("select exists (select 1 from fav_repos where full_name=:fullname and user_login=:forUser)")
+    fun isFavorite(fullname: String, forUser: String) : Single<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(repositoryDbModel: FavoriteRepositoryDbModel) : Completable
