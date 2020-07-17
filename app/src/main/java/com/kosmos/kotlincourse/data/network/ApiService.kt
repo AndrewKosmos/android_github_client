@@ -3,12 +3,19 @@ package com.kosmos.kotlincourse.data.network
 import com.kosmos.kotlincourse.domain.models.Commit
 import com.kosmos.kotlincourse.domain.models.GitRepositoryInfo
 import com.kosmos.kotlincourse.domain.models.GitRepositoryInfoGlobal
-import io.reactivex.Observable
+import com.kosmos.kotlincourse.domain.models.SigninResponse
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Path
 
 interface ApiService {
+
+    @Headers("Accept: application/json")
+    @GET("/")
+    fun getSignInResponse(@Header("Authorization") basic: String): Single<Response<SigninResponse>>
 
     @GET("/repositories")
     fun getRepositories(): Single<List<GitRepositoryInfoGlobal>>

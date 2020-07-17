@@ -4,6 +4,7 @@ import android.util.Log
 import com.kosmos.kotlincourse.di.scopes.FragmentScope
 import com.kosmos.kotlincourse.domain.interactors.ExploreFragmentInteractor
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.domain.utils.Constants.Companion.TAG
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 import io.reactivex.functions.Consumer
@@ -13,8 +14,13 @@ import javax.inject.Inject
 class ExploreFragmentPresenterImpl @Inject constructor(
     private val interactor: ExploreFragmentInteractor,
     private val view: ExploreFragmentPresenter.View,
-    private val schedulersProvider: SchedulersProvider
+    private val schedulersProvider: SchedulersProvider,
+    private var sessionManager: SessionManager
 ) : ExploreFragmentPresenter {
+
+    init {
+        Log.d(TAG, "init explore presenter with user: ${sessionManager.currentLogin}")
+    }
 
     private val repositoriesList: MutableList<GitRepository> = mutableListOf()
 

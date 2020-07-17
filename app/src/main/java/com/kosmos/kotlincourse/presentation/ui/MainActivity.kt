@@ -1,7 +1,9 @@
 package com.kosmos.kotlincourse.presentation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -32,7 +34,30 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.M
         (application as CourseApplication).getMainComponent(this).inject(this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_sign_out -> {
+                mainPresenter.signOut()
+                true
+            }
+            else -> {
+                false
+            }
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean = navigation.navigateUp()
+
+    override fun moveToLoginScreen() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     override fun showProgress() {
 
@@ -43,7 +68,7 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView, MainFragment.M
     }
 
     override fun showError(message: String) {
-        //Log.d(TAG, "showError: ERROR $message")
+        Log.d(TAG, "showError: ERROR $message")
     }
 
     override fun repositoryClicked(repository: GitRepository) {

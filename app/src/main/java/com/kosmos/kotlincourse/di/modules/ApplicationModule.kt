@@ -1,6 +1,7 @@
 package com.kosmos.kotlincourse.di.modules
 
 import android.content.Context
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 import dagger.Module
 import dagger.Provides

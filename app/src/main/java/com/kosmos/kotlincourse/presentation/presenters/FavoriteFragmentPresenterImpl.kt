@@ -4,6 +4,7 @@ import android.util.Log
 import com.kosmos.kotlincourse.di.scopes.FragmentScope
 import com.kosmos.kotlincourse.domain.interactors.FavoritesFragmentInteractor
 import com.kosmos.kotlincourse.domain.models.GitRepository
+import com.kosmos.kotlincourse.domain.models.SessionManager
 import com.kosmos.kotlincourse.domain.utils.Constants
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 import javax.inject.Inject
@@ -12,7 +13,8 @@ import javax.inject.Inject
 class FavoriteFragmentPresenterImpl @Inject constructor(
     private val interactor: FavoritesFragmentInteractor,
     private val view: FavoriteFragmentPresenter.View,
-    private val schedulersProvider: SchedulersProvider
+    private val schedulersProvider: SchedulersProvider,
+    private var sessionManager: SessionManager
 ) : FavoriteFragmentPresenter {
 
     override fun getAllFavorites() {

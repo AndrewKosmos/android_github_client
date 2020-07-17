@@ -4,18 +4,18 @@ import android.app.Application
 import com.kosmos.kotlincourse.data.network.Constants
 import com.kosmos.kotlincourse.di.components.*
 import com.kosmos.kotlincourse.di.modules.*
-import com.kosmos.kotlincourse.presentation.ui.ExploreFragment
-import com.kosmos.kotlincourse.presentation.ui.FavoritesFragment
-import com.kosmos.kotlincourse.presentation.ui.MainActivity
-import com.kosmos.kotlincourse.presentation.ui.RepositoryDetailFragment
+import com.kosmos.kotlincourse.domain.models.SessionManager
+import com.kosmos.kotlincourse.presentation.ui.*
 import com.kosmos.kotlincourse.utils.SchedulersProvider
 
 class CourseApplication : Application() {
 
     private lateinit var applicationComponent: ApplicationComponent
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate() {
         super.onCreate()
+        sessionManager = SessionManager(this)
 
         applicationComponent = DaggerApplicationComponent.builder()
             .applicationModule(
@@ -29,6 +29,8 @@ class CourseApplication : Application() {
     }
 
     fun getApplicationComponent() : ApplicationComponent = applicationComponent
+
+    fun getSessionManager() : SessionManager = sessionManager
 
     fun getMainComponent(mainActivity: MainActivity) : MainComponent = applicationComponent
         .getMainComponent().create(
@@ -53,6 +55,13 @@ class CourseApplication : Application() {
         .getFavoritesComponent().create(
             FavoritesModule(
                 favoritesFragment
+            )
+        )
+
+    fun getLoginComponent(loginActivity: LoginActivity) : LoginComponent = applicationComponent
+        .getLoginComponent().create(
+            LoginModule(
+                loginActivity
             )
         )
 }

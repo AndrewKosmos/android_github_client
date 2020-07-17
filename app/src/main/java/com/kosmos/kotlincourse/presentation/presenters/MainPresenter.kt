@@ -5,6 +5,9 @@ import com.kosmos.kotlincourse.presentation.ui.BaseView
 
 interface MainPresenter : BasePresenter {
 
-    interface MainView : BaseView { }
+    interface MainView : BaseView {
+        fun moveToLoginScreen()
+    }
 
+    fun signOut()
 }
